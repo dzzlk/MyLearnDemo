@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- 
+     log4j2默认在classpath(src和sources)下查找配置文件,可以修改配置文件的位置, 
+     log4j2的使用与配置详见:https://blog.csdn.net/win7system/article/details/70243502
+-->
+<!-- 
+       根节点Configuration的status属性:表示log4j2本身的日志信息打印级别。如果把status改为TRACE再执行测试代码，可以看到控制台中打印了一些log4j加载插件、
+      组装logger等调试信息。 
+     日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出。这个对于Loggers中level的定义同
+    样适用。
+    关闭自身日志输出则status="OFF"
+-->
+<configuration status="WARN">
+  <!-- 
+     Appender子节点可以理解为日志的输出目的地，这里配置了一个类型为Console的Appender，也就是输出到控制台。Console节点中的PatternLayout定义了输出
+     日志时的格式：
+     %d{HH:mm:ss.SSS} 表示输出到毫秒的时间              %t 输出当前线程名称               %-5level 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0
+
+     %logger 输出logger名称，因为Root Logger没有名称，所以没有输出        %msg 日志文本   %n 换行
+
+     其他常用的占位符有：
+
+     %F 输出所在的类文件名，如Client.java   %L 输出行号      %M 输出所在方法名     %l  输出语句所在的行数, 包括类名、方法名、文件名、行数
+   -->
+  <appenders>
+    <!-- 定义了控制台日志输出的格式 -->
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+    <File name="log" fileName="target/test.log" append="false">  
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>  
+    </File>  
+    <!-- 
+                    回滚文件RollingFile:当满足一定条件(如文件达到了指定的大小，达到了指定的时间)后，就重命名原日志文件进行归档
+                    ，并生成新的日志文件用于log写入。如果还设置了一定时间内允许归档的日志文件的最大数量，将对过旧的日志文件进行删除
+                    操作。
+        RollingFile实现日志文件滚动更新，依赖于TriggeringPolicy和RolloverStrategy。
+
+                   其中，TriggeringPolicy为触发策略，其决定了何时触发日志文件的rollover，即When。
+
+        RolloverStrategy为滚动更新策略，其决定了当触发了日志文件的rollover时，如何进行文件的rollover，
+                    即How。
+    -->
+    <!--
+      fileName指定日志文件的位置和文件名称（如果文件或文件所在的目录不存在，会创建文件。）
+      filePattern指定触发rollover时，文件的重命名规则。
+      filePattern中可以指定类似于SimpleDateFormat中的date/time pattern，如yyyy-MM-dd HH，或者%i指定一个整数计数器。 
+     -->
+    <RollingFile name="RollingFile" fileName="logs/app.log"  
+                 filePattern="logs/app.log.%d{yyyyMMddHHmm}">
+       <!-- 
+       RollingFile节点中的PatternLayout定义了输出 日志时的格式(详细含义见本xml的9~19行,同Console节点中的PatternLayout的解释) 
+       -->            
+      <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        <!-- 或者这样写 -->
+        <!-- <PatternLayout>
+        <Pattern>%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n</Pattern>
+       </PatternLayout> -->
+       <!-- 单个触发策略这样写: -->
+      <!-- <SizeBasedTriggeringPolicy size="500 MB" />  -->
+      <!-- 多个触发策略这样写: -->
+       <Policies>
+       <!-- TimeBasedTriggeringPolicy指定了基于时间的触发策略。 -->
+         <!-- 每分钟更新一次 -->
+         <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+       <!-- SizeBasedTriggeringPolicy指定了基于文件大小的触发策略。 -->
+        <SizeBasedTriggeringPolicy size="2MB"/>
+      </Policies> 
+    </RollingFile>  
+    <!-- 
+                     上述配置文件中配置了一个RollingFile，日志写入logs/app.log文件中，每经过1小时或者当文件大小到达250M时，
+                     按照logs/2018-08/app-08-16-2018-1.log.gz的格式对app.log进行重命名并归档，并生成新的文件用于写入log。
+     -->
+  </appenders>
+  <loggers>
+    <logger name="HelloLog4j" level="info" additivity="true">
+      <!-- <AppenderRef ref="RollingFile" level="ALL"/> -->
+      <!-- 或者这样写等效 -->
+      <appender-ref ref="RollingFile" level="ALL"/>
+    </logger>
+    <root level="trace">
+      <appender-ref ref="Console"/>
+    </root>
+  </loggers>
+</configuration>
