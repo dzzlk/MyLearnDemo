@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>本地应用-图片轮播(切换)</title>
+    <link rel="stylesheet" href="./css/index1.css"/>
+    <style>
+        .active{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mask">
+        <div class="center">
+            <h2 class="title">
+                哔哩哔哩干杯！！！
+            </h2>
+            <!--图片-->
+            <img :src="imgArr[index]" alt=""/>
+            <!--左箭头-->
+            <a href="javascript:void(0)" v-show="index!=0" class="left" @click="prev"> 
+                <img src="./img/prev.png" alt=""/>
+            </a>
+            <!--右箭头-->
+            <a href="javascript:void(0)" v-show="index < imgArr.length-1" class="right" @click="next">
+                <img src="./img/next.png" alt=""/>
+            </a>
+        </div>
+        
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--
+        列表数据使用数组保存
+        v-bind指令可以设置元素属性,比如src
+        v-show和v-if都可以切换元素的显示状态,频繁切换用v-show
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+             el:'#mask',
+             data:{
+                imgArr:[
+                    "./img/1.jpg",
+                        "./img/2.jpg",
+                        "./img/3.jpg",
+                        "./img/4.jpg",
+                        "./img/5.jpg"
+                        ],
+                index:0
+             },
+             methods:{
+                 prev:function(){
+                      this.index--;
+                 },
+                 next:function(){
+                      this.index++;
+                 }
+             }
+        })
+    </script>
+
+</body>
+
+</html>

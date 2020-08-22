@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue</title>
+</head>
+
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--引入的js脚本和自己写的js代码必须放在被渲染元素比如div的下面才能生效-->
+    <!--为了看到网页修改的浏览器即时效果，用了vscode的live server插件,具体使用方法
+    请百度,先用vs code打开一个文件夹,然后新建编辑html,最后vs code里面右击html并选择
+    以live server方式打开即可(live server打不开免安装版或绿色版本的浏览器比如chrome)-->
+    <!--Vue官网:https://cn.vuejs.org/
+    由于作者是中国人，所以看官网学习非常好-->
+    <!--
+        创建Vue的主要三个步骤:
+              ①创建一个 .html 文件
+              ②引入Vue的js:开发环境用开发环境版本,生成环境用生产环境版本,类似于jQuery正式版与mini版
+              的区别
+              ③新建一个双标签比如div，设置id比如id="app"
+              ④新建Vue对象并初始化它的el、data(数据)、methods(方法):
+              var app = new Vue({
+                        el:'#app',
+                        data:{
+                            message:'Hello Vue! Vue是渐进式JS框架。'
+                        },
+                        methods{
+
+                        }
+                    })
+            ⑤按需求开发:不断地添加页面html结构和修改Vue对象，以达到开发需求
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+                message:'Hello Vue! Vue是渐进式JS框架。'
+            }
+        })
+    </script>
+
+</body>
+
+</html>

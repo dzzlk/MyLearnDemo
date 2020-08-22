@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-if指令:控制元素的显示与隐藏,操纵dom元素添加与移除</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="showOrHide" @click="showOrHide" />
+        <p v-if="isShow">乔治最可爱！</p>
+        <input type="button" value="changeTemperature" @click="changeTemperature" />
+        <h2 v-if="temperature >=35">今天热死了！</h2>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--
+        实际工作中元素的显示与隐藏:
+        频繁切换的元素用v-show,否则用v-if
+        v-if指令的作用是:根据它后面等于号里面(表达式)的真假切换元素的显示状态
+        本质:操纵dom元素添加与移除来控制元素的显示与隐藏
+        v-if后面为false时将元素从dom树中移除,为true则将元素添加到dom树中
+        
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+             el:'#app',
+             data:{
+                isShow:false,
+                temperature:34
+             },
+             methods:{
+                 showOrHide:function(){
+                      this.isShow = !this.isShow;
+                 },
+                 changeTemperature:function(){
+                     this.temperature++;
+                 }
+             }
+        })
+    </script>
+
+</body>
+
+</html>

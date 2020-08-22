@@ -1,0 +1,105 @@
+
+<html>
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+      <title>乔治记事本</title>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+      <meta name="robots" content="noindex, nofollow" />
+      <meta name="googlebot" content="noindex, nofollow" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" type="text/css" href="./css/index2.css" />
+    </head>
+  
+    <body>
+      <!-- 主体区域 -->
+      <section id="todoapp">
+        <!-- 输入框 -->
+        <header class="header">
+          <h1>乔治记事本</h1>
+          <input
+            v-model="inputValue"
+            autofocus="autofocus"
+            autocomplete="off"
+            placeholder="请输入任务"
+            class="new-todo"
+            @keyup.enter="add"
+          />
+        </header>
+        <!-- 列表区域 -->
+        <section class="main">
+          <ul class="todo-list">
+            <li class="todo" v-for="(item,index) in list">
+              <div class="view">
+                <span class="index">{{index+1}}.</span> <label>{{item}}</label>
+                <button class="destroy" @click="remove(index)"></button>
+              </div>
+            </li>
+            <!-- <li class="todo">
+              <div class="view">
+                <span class="index">2.</span> <label>吃饭饭</label>
+                <button class="destroy"></button>
+              </div>index
+            </li> -->
+          </ul>
+        </section>
+        <!-- 统计和清空 -->
+        <footer class="footer">
+          <span class="todo-count" v-show="list.length != 0"> <strong>{{list.length}}</strong> items left </span>
+          <button class="clear-completed" @click="clear" v-if="list.length != 0">
+            Clear
+          </button>
+        </footer>
+      </section>
+      <!-- 底部 -->
+      <footer class="info">
+        <p>
+          <a href="http://www.itheima.com/"
+            ><img src="./img/black.png" alt=""
+          /></a>
+        </p>
+      </footer>
+      <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+      <!--
+          1.数据改变，则和数据绑定的元素就会同步改变
+          2.事件的自定义参数
+          3.Vue是基于数据的开发方式,页面是数据的展示,
+          对数据是响应式的即我们改变数据,页面就会同步改变或更新
+          我们在页面上使用各种Vue指令
+
+          对笔记条数的技术可以在Strong标签里面使用v-text="list.length" 或者直接
+          两个大括号里面写上list.length
+
+          列表结构可以通过v-for指令结合数据生成
+          v-on结合事件修饰符可以对事件进行限制,比如.enter
+          v-on在绑定事件时可以传递自定义参数
+          通过v-model可以快速的设置和获取表单元素的值
+          基于数据的开发方式
+      -->
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script>
+          var app = new Vue({
+              el:"#todoapp",
+              data:{
+                  list:["上班","睡觉","喂乔治"],
+                  inputValue:"起床"
+              },
+              methods:{
+                  add:function(){
+                      this.list.push(this.inputValue);
+                  },
+                  remove:function(index){
+                    //   console.log("删除！");
+                    //   console.log("索引:" + index);
+                      this.list.splice(index,1);
+                      //数组的删除方法:splice(index,num):
+                     //index表示从数组的哪个索引元素开始删除,num表示连续删几个
+                  },
+                  clear:function(){
+                    this.list = [];
+                  }
+              }
+          })
+      </script>
+    </body>
+  </html>
+  

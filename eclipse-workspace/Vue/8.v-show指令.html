@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-show指令:控制元素的显示与隐藏,操纵样式</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="showOrHide" @click="showOrHide" />
+        <img src="./img/monkey.gif" alt="" v-show="isShow"/>
+        <input type="button" value="addAge" @click="addAge" />
+        <img src="./img/monkey.gif" alt="" v-show="age >= 18"/>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--
+        v-show指令的作用是:根据它后面等于号里面(表达式)的真假切换元素的显示状态
+        原理是修改元素的CSS属性display实现显示与隐藏
+        指令后面的内容最终都会解析为布尔值
+        值为true元素显示，值为false元素隐藏
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+             el:'#app',
+             data:{
+                isShow:false,
+                age:17
+             },
+             methods:{
+                 showOrHide:function(){
+                      this.isShow = !this.isShow;
+                 },
+                 addAge:function(){
+                     this.age++;
+                 }
+             }
+        })
+    </script>
+
+</body>
+
+</html>

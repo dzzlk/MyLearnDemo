@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-bind指令:为元素绑定属性</title>
+    <style>
+        .active{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <img v-bind:src="imgSrc"  alt="" v-bind:title="imgTitle + '!'"/>
+        <br>
+        <img :src="imgSrc" alt="" :title="imgTitle1 + '!!!'" 
+        :class="isActive?'active':''" @click="toogleActive"/>
+        <br>
+        <img :src="imgSrc" alt="" :title="imgTitle1 + '!!!'" 
+        :class="{active:isActive}" @click="toogleActive"/>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--
+        v-bind指令的作用是:为元素绑定属性
+        完整写法是v-bind:属性名
+        简写的话可以省略v-bind,只保留:属性名
+        需要动态的增删class建议使用对象的方式
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+             el:'#app',
+             data:{
+                imgSrc:"./img/monkey.gif",
+                imgTitle:"v-bind指令",
+                imgTitle1:"v-bind指令简写方式",
+                isActive:false
+             },
+             methods:{
+                 toogleActive:function(){
+                      this.isActive = !this.isActive;
+                 }
+             }
+        })
+    </script>
+
+</body>
+
+</html>
